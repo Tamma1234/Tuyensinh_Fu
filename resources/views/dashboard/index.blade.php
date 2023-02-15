@@ -15,10 +15,22 @@
                         Dashboard
                     </h3>
                 </div>
-{{--                <div class="col-md-6 col-4 align-self-center">--}}
-{{--                    <a href="" class="btn pull-right hidden-sm-down btn-success"><i--}}
-{{--                            class="mdi mdi-plus-circle"></i> Create</a>--}}
-{{--                </div>--}}
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-wrapper">
+                        <div class="kt-portlet__head-actions">
+                            <div class="dropdown dropdown-inline">
+                                <a href="{{ route('lead.export') }}" class="btn btn-default btn-icon-sm dropdown-toggle">
+                                    <i class="la la-download"></i> Export
+                                </a>
+                            </div>
+                            &nbsp;
+                            <a href="#" class="btn btn-brand btn-elevate btn-icon-sm">
+                                <i class="la la-plus"></i>
+                                New Record
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="kt-portlet__body" id="form-table-search">
                 <!--begin: Datatable -->
@@ -37,17 +49,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php $i = 1?>
+                    <?php $i = 1 ?>
                     @foreach($leads  as $item)
                         <tr>
                             <td>{{ $i++ }}</td>
-                            <td>{{$item->full_name}}</td>
-                            <td>{{$item->dob}}</td>
+                            <td>{{$item->ho_va_ten}}</td>
+                            <td>{{$item->ngay_sinh}}</td>
                             <td>{{$item->email }}</td>
-                            <td>{{$item->province}}</td>
-                            <td>{{$item->school }}</td>
-                            <td>{{$item->phone_number }}</td>
-                            <td>{{$item->majors}}</td>
+                            <td>{{$item->tinhtp_truong}}</td>
+                            <td>{{$item->truong_thpt }}</td>
+                            <td>{{$item->di_dong }}</td>
+                            <td>{{$item->nganh}}</td>
                             <td class="text-nowrap">
                                 <a href="" data-toggle="tooltip"
                                    data-original-title="Edit"><i class="flaticon-edit"></i>

@@ -17,19 +17,19 @@ class LeadHistoryImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new LeadHistory([
-            "full_name" => $row['ho_va_ten'],
-            "dob" => $row['ngay_sinh'],
-            "province" => $row['tinhtp_truong'],
-            "school" => $row['truong_thpt'],
-            "phone_number" => $row['di_dong'],
-            "hphone_number" => $row['dien_thoai'],
+            "ho_va_ten" => $row['ho_va_ten'],
+            "ngay_sinh" => $row['ngay_sinh'],
+            "tinhtp_truong" => $row['tinhtp_truong'],
+            "truong_thpt" => $row['truong_thpt'],
+            "di_dong" => $row['di_dong'],
+            "dien_thoai" => $row['dien_thoai'],
             "email" => $row['email'],
-            "majors" => $row['nganh'],
-            "description" => $row['mo_ta'],
-            "source" => $row['nguon'],
-            "year" => $row['nam_tuyen_sinh'],
-            "status_lead" => $row['tinh_trang_lead'],
-            "user_name" => $row['giao_cho']
+            "nganh" => $row['nganh'],
+            "mo_ta" => $row['mo_ta'],
+            "nguon" => $row['nguon'],
+            "nam_tuyen_sinh" => $row['nam_tuyen_sinh'],
+            "tinh_trang_lead" => $row['tinh_trang_lead'],
+            "giao_cho" => $row['giao_cho']
         ]);
     }
 }

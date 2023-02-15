@@ -26,5 +26,6 @@ Route::middleware('auth')->group(function () {
         Route::get('import', [LeadController::class,'import'])->name('lead.import');
         Route::post('post-import', [LeadController::class,'postImport'])->name('post.import');
         Route::get('lead-history', [LeadController::class,'leadHistory'])->name('lead.history');
+        Route::get('lead-export', [LeadController::class,'exports'])->name('lead.export');
     });
 });
