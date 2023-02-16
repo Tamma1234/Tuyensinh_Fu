@@ -13,6 +13,5 @@ class LeadExport implements FromCollection
     public function collection()
     {
         $user = Lead::all();
-        dd($user);
     }
 }

@@ -33,10 +33,33 @@
                         <div class="alert alert-solid-danger alert-bold">{{ $message }}</div>
                         @enderror
                         @if(Session::has('import_errors'))
-                            @foreach(Session::get('import_errors') as $failure)
-                                <div class="alert alert-solid-danger alert-bold"> {{ $failure->errors()[0]}} at line
-                                    no-{{ $failure->row() }}</div>
-                            @endforeach
+                            <table class="table table-danger">
+                                <thead>
+                                <tr>
+                                    <th>Row</th>
+                                    <th>Attribute</th>
+                                    <th>Errors</th>
+                                    <th>Value</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach(Session::get('import_errors') as $failure)
+                                    <tr>
+                                        <td>{{ $failure->row() }}</td>
+                                        <td>{{ $failure->attribute() }}</td>
+                                        <td>
+                                            <ul class="kt-nav">
+                                                @foreach($failure->errors() as $item)
+                                                    <li class="kt-nav__item">{{ $item }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
+                                        <td>{{ $failure->values()[$failure->attribute()] }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+
                         @endif
                         <div class="kt-portlet__foot">
                             <div class="kt-form__actions">

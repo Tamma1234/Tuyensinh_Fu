@@ -35,14 +35,13 @@ class LeadController extends Controller
             'file_name' => $fileName .'-'. $time,
             'user_email' => $user->email
         ]);
+
         try {
             Excel::import(new UsersImport, $request->file('file'));
             return redirect()->route('dashboard')->with('success', 'Leads successfully imported');
         } catch (ValidationException $e) {
             $failures = $e->failures();
-            dd($failures);
-            Excel::import(new LeadHistoryImport(), $request->file('file'));
-
+//            Excel::import(new LeadHistoryImport(), $request->file('file'));
             return redirect()->back()->with('import_errors', $failures);
 //            foreach ($failures as $failure) {
 //                $failure->row(); // row that went wrong
