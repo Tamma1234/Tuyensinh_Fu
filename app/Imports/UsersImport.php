@@ -2,10 +2,10 @@
 
 namespace App\Imports;
 
+use App\Models\FileNameLead;
 use App\Models\Lead;
 use App\Models\User;
 use Carbon\Carbon;
-use http\Env\Request;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -22,6 +22,8 @@ class UsersImport implements ToCollection, WithHeadingRow, WithValidation
 {
     public function collection(Collection $rows)
     {
+        $fileNameLead = FileNameLead::orderBy('created_at', 'desc')->first();
+        $fileNameId = $fileNameLead->id;
         foreach ($rows as $row) {
             $birthday = $row['ngay_sinh'];
             $timestamp = strtotime($birthday);
@@ -29,7 +31,7 @@ class UsersImport implements ToCollection, WithHeadingRow, WithValidation
                 $timestamp = strtotime(str_replace('/', '-', $birthday));
             }
             $format = date('Y-m-d', $timestamp);
-           $data = [
+            $data = [
                 "ho_va_ten" => $row['ho_va_ten'],
                 "ngay_sinh" => $format,
                 "tinhtp_truong" => $row['tinhtp_truong'],
@@ -43,10 +45,9 @@ class UsersImport implements ToCollection, WithHeadingRow, WithValidation
                 "nam_tuyen_sinh" => $row['nam_tuyen_sinh'],
                 "tinh_trang_lead" => $row['tinh_trang_lead'],
                 "giao_cho" => $row['giao_cho'],
-               "id_file_name_lead" => 1
+                "id_file_name_lead" => $fileNameId
             ];
             Lead::create($data);
-
         }
     }
 
@@ -54,7 +55,7 @@ class UsersImport implements ToCollection, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            'ho_va_ten' =>  'required|unique:leads',
+            'ho_va_ten' => 'required|unique:leads',
 
             'email' => 'nullable|unique:leads,email',
             // Above is alias for as it always validates in batches
@@ -62,9 +63,9 @@ class UsersImport implements ToCollection, WithHeadingRow, WithValidation
             'ngay_sinh' => 'required|unique:leads',
             // Above is alias for as it always validates in batches
 
-            'truong_thpt' => 'required',
+            'truong_thpt' => 'required|unique:leads',
 
-            'tinhtp_truong' => 'required',
+            'tinhtp_truong' => 'required|unique:leads',
 
             'di_dong' => 'required|unique:leads',
         ];

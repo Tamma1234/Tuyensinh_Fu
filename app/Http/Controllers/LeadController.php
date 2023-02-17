@@ -25,23 +25,24 @@ class LeadController extends Controller
         $request->validate([
             'file' => 'required|mimes:xlsx'
         ]);
-        $fileName = $request->file('file')->getClientOriginalName();
-        $user = auth()->user();
-        $date = Carbon::now();
-        $time = $date->toTimeString();
-
-        $fileNameLead = new FileNameLead();
-        $fileNameLead->create([
-            'file_name' => $fileName .'-'. $time,
-            'user_email' => $user->email
-        ]);
-
         try {
+            $fileName = $request->file('file')->getClientOriginalName();
+            $user = auth()->user();
+            $date = Carbon::now();
+            $time = $date->toDateTimeString();
+
+            $fileNameLead = new FileNameLead();
+            $fileNameLead->create([
+                'file_name' => $fileName .'_'. $time,
+                'user_email' => $user->email
+            ]);
+
             Excel::import(new UsersImport, $request->file('file'));
             return redirect()->route('dashboard')->with('success', 'Leads successfully imported');
         } catch (ValidationException $e) {
             $failures = $e->failures();
-//            Excel::import(new LeadHistoryImport(), $request->file('file'));
+            dd($failures);
+            Excel::import(new LeadHistoryImport(), $request->file('file'));
             return redirect()->back()->with('import_errors', $failures);
 //            foreach ($failures as $failure) {
 //                $failure->row(); // row that went wrong
@@ -58,7 +59,8 @@ class LeadController extends Controller
         return view('leads.history', compact('leadHistory'));
     }
 
-    public function exports() {
-        return Excel::download(new LeadExport(), 'users'.'.xlsx');
+    public function exports()
+    {
+        return Excel::download(new LeadExport(), 'users' . '.xlsx');
     }
 }
